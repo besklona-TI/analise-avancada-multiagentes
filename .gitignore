@@ -1,0 +1,24 @@
+# Ambientes e dependências locais
+/.venv/
+venv/
+**/node_modules/
+
+# Arquivos temporários do Python e ferramentas de análise
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Relatórios do projeto: versionar somente Markdown
+/projeto-dashboard/relatorios/**
+!/projeto-dashboard/relatorios/**/
+!/projeto-dashboard/relatorios/**/*.md

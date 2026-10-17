@@ -1,0 +1,43 @@
+name: Dashboard CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependências de teste
+        run: python -m pip install pandas playwright
+
+      - name: Instalar Chromium e dependências do sistema
+        run: python -m playwright install --with-deps chromium
+
+      - name: Preparar os dados
+        working-directory: projeto-dashboard
+        run: python preparar_dados.py
+
+      - name: Executar a suíte completa
+        working-directory: projeto-dashboard
+        run: python -m unittest discover -s tests -v
+
+      - name: Verificar sintaxe JavaScript
+        working-directory: projeto-dashboard
+        run: node --check site/app.js

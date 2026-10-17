@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Dashboard interativo das vendas da papelaria, com filtros por cidade e categoria.">
+    <title>Vendas da papelaria | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <p class="eyebrow">PAINEL DE VENDAS · JAN–MAR 2026</p>
+        <h1>Visão geral das vendas</h1>
+        <p class="intro">Acompanhe o valor vendido por categoria e cidade. Use os filtros para explorar os registros.</p>
+      </div>
+    </header>
+
+    <main id="conteudo" class="page-shell">
+      <section class="filters panel" aria-labelledby="filters-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">EXPLORE OS DADOS</p>
+            <h2 id="filters-title">Filtros</h2>
+          </div>
+          <button id="clear-filters" class="button-secondary" type="button">Limpar filtros</button>
+        </div>
+        <div class="filter-controls">
+          <label>
+            <span>Categoria</span>
+            <select id="filter-category" aria-label="Filtrar por categoria">
+              <option value="">Todas as categorias</option>
+            </select>
+          </label>
+          <label>
+            <span>Cidade</span>
+            <select id="filter-city" aria-label="Filtrar por cidade">
+              <option value="">Todas as cidades</option>
+            </select>
+          </label>
+        </div>
+        <p id="filter-summary" class="filter-summary" aria-live="polite"></p>
+      </section>
+
+      <section aria-labelledby="indicators-title">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="eyebrow">RESUMO</p>
+            <h2 id="indicators-title">Indicadores</h2>
+          </div>
+        </div>
+        <div class="kpi-grid" aria-live="polite">
+          <article class="kpi-card">
+            <p class="kpi-label">Valor total vendido</p>
+            <p id="kpi-total" class="kpi-value">—</p>
+            <p class="kpi-note">Soma de valor_venda · não representa lucro</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Quantidade de vendas</p>
+            <p id="kpi-count" class="kpi-value">—</p>
+            <p class="kpi-note">Uma linha da fonte corresponde a uma venda</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Ticket médio</p>
+            <p id="kpi-average" class="kpi-value">—</p>
+            <p class="kpi-note">Valor total vendido ÷ número de vendas</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="charts-title">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="eyebrow">COMPARAÇÃO</p>
+            <h2 id="charts-title">Valor vendido por grupo</h2>
+          </div>
+        </div>
+        <div class="chart-grid">
+          <article class="chart-card panel">
+            <h3>Por categoria</h3>
+            <p class="chart-description">Valor total vendido em cada categoria (R$).</p>
+            <div id="chart-category" class="bar-chart" role="img" aria-label="Gráfico de barras horizontais do valor vendido por categoria"></div>
+          </article>
+          <article class="chart-card panel">
+            <h3>Por cidade</h3>
+            <p class="chart-description">Valor total vendido em cada cidade (R$).</p>
+            <div id="chart-city" class="bar-chart" role="img" aria-label="Gráfico de barras horizontais do valor vendido por cidade"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="table-section panel" aria-labelledby="table-title">
+        <div class="section-heading table-heading">
+          <div>
+            <p class="eyebrow">DETALHAMENTO</p>
+            <h2 id="table-title">Vendas</h2>
+          </div>
+          <span id="table-count" class="table-count" aria-live="polite"></span>
+        </div>
+        <p id="empty-message" class="empty-message" role="status" hidden>Nenhuma venda encontrada com esses filtros. Altere ou limpe os filtros para ver resultados.</p>
+        <div id="table-wrap" class="table-wrap" tabindex="0" aria-label="Tabela de vendas; em telas estreitas, deslize horizontalmente para ver todas as colunas">
+          <table>
+            <caption>Registros de venda da fonte papelaria_limpa.csv</caption>
+            <thead>
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">ID da venda</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Produto</th>
+                <th scope="col" class="numeric">Quantidade</th>
+                <th scope="col" class="numeric">Preço unitário</th>
+                <th scope="col">Forma de pagamento</th>
+                <th scope="col" class="numeric">Valor da venda</th>
+              </tr>
+            </thead>
+            <tbody id="sales-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p id="load-error" class="load-error" role="alert" hidden>Não foi possível carregar os dados. Confira se o site está aberto por um servidor HTTP e se o arquivo dados/vendas.json existe.</p>
+      <footer class="page-footer">Fonte: <code>papelaria_limpa.csv</code> · Valores em reais (R$).</footer>
+    </main>
+  </body>
+</html>
